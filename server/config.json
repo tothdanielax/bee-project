@@ -1,0 +1,14 @@
+{
+  "host": "localhost",
+  "port": 8080,
+  "defaultUser": {
+    "username": "bumblebee",
+    "password": "IloveHon3y"
+  },
+  "authentication": {
+    "secret": "skyint",
+    "strategies": [
+      "jwt"
+    ]
+  }
+}

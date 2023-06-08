@@ -1,0 +1,11 @@
+.nav-link {
+    @apply rounded-md text-white hover:text-gray-300;
+}
+
+.nav-span {
+    @apply align-middle ms-1;
+}
+
+a.active {
+    @apply text-yellow-500;
+}
