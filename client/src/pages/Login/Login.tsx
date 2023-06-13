@@ -161,11 +161,11 @@ function Login() {
                 </div>
                 <div className='flex flex-row gap-3'>
                     <Button variant="contained" type='submit' className='w-fit py-2 px-4 transition-all duration-500' color="primary"
-                            autoFocus={true} focusRipple={true} onClick={handleLogin} disabled={validations.username.error || validations.password.error}>
+                            autoFocus={true} focusRipple={true} onClick={handleLogin} disabled={validations.username.error || validations.password.error || !user.username.trim() || !user.password.trim()}>
                         Login
                     </Button>
                     <Button variant="contained" type='submit' className='w-fit py-2 px-4 transition-all duration-500' color="secondary"
-                            onClick={handleRegister} disabled={validations.username.error || validations.password.error}>
+                            onClick={handleRegister} disabled={validations.username.error || validations.password.error || !user.username.trim() || !user.password.trim()}>
                         Register
                     </Button>
                 </div>
