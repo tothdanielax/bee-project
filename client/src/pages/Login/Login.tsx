@@ -108,7 +108,7 @@ function Login() {
             navigate("/app");
             toast.success("Login successful");
         } catch (error) {
-            toast.error("Login failed");
+            toast.error(`Login failed: ${error}`);
         }
     };
 
@@ -120,7 +120,7 @@ function Login() {
             navigate("/app");
             toast.success("Register successful");
         } catch (error) {
-            toast.error(`Register failed`);
+            toast.error(`Register failed: ${error}`);
         }
     }
 
@@ -160,12 +160,12 @@ function Login() {
                     </Box>
                 </div>
                 <div className='flex flex-row gap-3'>
-                    <Button variant="contained" type='submit' className='w-fit py-2 px-4' color="primary"
-                            autoFocus={true} focusRipple={true} onClick={handleLogin}>
+                    <Button variant="contained" type='submit' className='w-fit py-2 px-4 transition-all duration-500' color="primary"
+                            autoFocus={true} focusRipple={true} onClick={handleLogin} disabled={validations.username.error || validations.password.error}>
                         Login
                     </Button>
-                    <Button variant="contained" type='submit' className='w-fit py-2 px-4' color="secondary"
-                            onClick={handleRegister}>
+                    <Button variant="contained" type='submit' className='w-fit py-2 px-4 transition-all duration-500' color="secondary"
+                            onClick={handleRegister} disabled={validations.username.error || validations.password.error}>
                         Register
                     </Button>
                 </div>

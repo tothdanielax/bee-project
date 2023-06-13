@@ -77,22 +77,18 @@ app.post('/api/register', async function (req: AuthRequest, res: any) {
 
     const {username, password} = req.body;
     if (!username || !password) {
-        return res.status(400).send({error: "bad request, username or password is missing"} as ErrorResponse);
+        return res.status(400).send({error: "username or password is missing"} as ErrorResponse);
     }
 
     const userExists = await User.findOne({where: {username: username}});
-    if (!userExists) return res.status(400).send({error: "not existing"} as ErrorResponse);
-
-    const isPasswordValid = bcrypt.compareSync(password, userExists.password);
-    if (!isPasswordValid) {
-        return res.status(400).json({error: 'already registered'});
-    }
+    if (userExists) return res.status(400).send({error: "user already existing"} as ErrorResponse);
 
     const user = await User.create({username: username, password: password});
 
     const token = jwt.sign({...req.body, id: user.id}, secret);
     return res.status(200).send({authenticated: true, token: token});
 });
+
 
 
 app.post('/api/order', expressjwt({

@@ -1,19 +1,27 @@
 # bee-project
 Full stack web app, "Bee marketplace".
 
-- npm i in client, server, root
-- npm run db:fresh (in server)
-- npm run start (in root, starts both client & server)
+## How to run
 
-Used technologies:
+- **npm i:** in client, server, root folders
+- **npm run db:fresh:** server folder
+- **npm run start:** root folder, starts both client & server)
+
+## Used technologies:
+
+### Frontend:
 - React (ts)
 - Material UI
+- Tailwindcss
 - Redux Toolkit
 - Axios
-- Toastiy
+- Toastify
 
+### Backend:
 - Node.js
 - Express.js
 - Sequelize
+- jsonwebtoken / bcrypt
 
+### Testing:
 - Jest

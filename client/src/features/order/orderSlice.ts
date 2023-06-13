@@ -44,8 +44,14 @@ export const orderItems = createAsyncThunk(
 
 export const getOrders = createAsyncThunk(
     "order/getOrders",
-    async () => {
-        return await orderAPI.getOrders();
+    async (arg, thunkAPI) => {
+        try {
+            return await orderAPI.getOrders();
+        } catch (error) {
+            // @ts-ignore
+            const message = error.response.data.error;
+            return thunkAPI.rejectWithValue(message);
+        }
     }
 );
 

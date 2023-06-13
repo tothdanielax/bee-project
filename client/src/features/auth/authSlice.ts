@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import authAPI from "./authAPI.js";
 import {RootState} from "@context/store.ts";
+import {API_CONFIG} from "@context/api.ts";
 
 const token = localStorage.getItem("token");
 
@@ -26,8 +27,8 @@ export const login = createAsyncThunk(
             return await authAPI.login(user);
         } catch (error: unknown) {
             // @ts-ignore
-            const message = (error.response && error.response.data && error.response.data.message && error.response.data.message) || error.message || error.toString();
-            return thunkAPI.rejectWithValue({message});
+            const message = error.response.data.error || error.response.data.message || error.message || "";
+            return thunkAPI.rejectWithValue(message);
         }
     });
 
@@ -38,8 +39,8 @@ export const register = createAsyncThunk(
             return await authAPI.register(user);
         } catch (error: unknown) {
             // @ts-ignore
-            const message = (error.response && error.response.data && error.response.data.message && error.response.data.message) || error.message || error.toString();
-            return thunkAPI.rejectWithValue({message});
+            const message = error.response.data.error || error.response.data.message || error.message || "";
+            return thunkAPI.rejectWithValue(message);
         }
     }
 );
@@ -61,6 +62,7 @@ export const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 // @ts-ignore
                 state.token = action.payload.token;
+                API_CONFIG.headers!.Authorization = `Bearer ${action.payload.token}`;
                 state.isLoading = false;
             })
             .addCase(login.rejected, (state) => {
@@ -72,6 +74,7 @@ export const authSlice = createSlice({
             .addCase(register.fulfilled, (state, action) => {
                 // @ts-ignore
                 state.token = action.payload.token;
+                API_CONFIG.headers!.Authorization = `Bearer ${action.payload.token}`;
                 state.isLoading = false;
             })
             .addCase(register.rejected, (state) => {
