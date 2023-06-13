@@ -12,7 +12,6 @@ const {Sequelize, sequelize} = db;
 const {ValidationError, DatabaseError, Op} = Sequelize;
 const {User, Order, Honey} = db;
 
-
 const host = config.host;
 const port = config.port;
 const secret = config.authentication.secret;
@@ -89,8 +88,6 @@ app.post('/api/register', async function (req: AuthRequest, res: any) {
     return res.status(200).send({authenticated: true, token: token});
 });
 
-
-
 app.post('/api/order', expressjwt({
     secret: secret,
     algorithms: ["HS256"]
@@ -110,6 +107,7 @@ app.post('/api/order', expressjwt({
 
         const honey = await Honey.findOne({where: {type: key}});
 
+        if(!honey) return res.status(400).send({error: `"${key}" item is not available`} as ErrorResponse);
         if (honey.remaining < value) return res.status(400).send({error: `"${key}" item's quantity is more than the available quantity`} as ErrorResponse);
 
         honey.update({remaining: honey.remaining - value});

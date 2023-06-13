@@ -13,12 +13,22 @@ module.exports = {
                 password: "IloveHon3y"
             });
 
+            /*
             const honeys = await Honey.bulkCreate([
                 {type: "Akác", remaining: faker.number.int({min: 0, max: 100})},
                 {type: "Gyógy", remaining: faker.number.int({min: 0, max: 100})},
                 {type: "Hárs", remaining: faker.number.int({min: 0, max: 100})},
                 {type: "Virág", remaining: faker.number.int({min: 0, max: 100})},
                 {type: "Repce", remaining: faker.number.int({min: 0, max: 100})}
+            ]); */
+
+            // test
+            const honeys = await Honey.bulkCreate([
+                {type: "Akác", remaining: 100},
+                {type: "Gyógy", remaining: 100},
+                {type: "Hárs", remaining: 100},
+                {type: "Virág", remaining: 100},
+                {type: "Repce", remaining: 100}
             ]);
 
             const orders = await Order.bulkCreate([

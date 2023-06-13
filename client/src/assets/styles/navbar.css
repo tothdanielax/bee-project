@@ -1,5 +1,5 @@
 .nav-link {
-    @apply rounded-md text-white hover:text-gray-300;
+    @apply rounded-md text-white hover:opacity-80;
 }
 
 .nav-span {

@@ -242,4 +242,6 @@ fabric.properties
 !.idea/codeStyles
 !.idea/runConfigurations
 
-# End of https://www.toptal.com/developers/gitignore/api/node,webstorm+all,react
+# End of https://www.toptal.com/developers/gitignore/api/node,webstorm+all,react!/client/package.json
+!/client/package.json
+!/client/package-lock.json

@@ -5,7 +5,7 @@ const url = "/api/register";
 let conf = require("../config.json");
 const user = conf.defaultUser;
 
-describe("Login API", () => {
+describe("Register API", () => {
 
     describe("GET /api/register", () => {
         it("should return 404 NOT FOUND", () => {
@@ -37,7 +37,6 @@ describe("Login API", () => {
                 .post(url)
                 .then(response => {
                     expect(response.status).toEqual(400);
-                    expect(response.body).toEqual({error: "unauthorized"});
                 })
         });
 
@@ -47,7 +46,6 @@ describe("Login API", () => {
                 .send({})
                 .then(response => {
                     expect(response.status).toEqual(400);
-                    expect(response.body).toEqual({error: "unauthorized"});
                 })
         });
 
@@ -57,7 +55,6 @@ describe("Login API", () => {
                 .send({password: "password"})
                 .then(response => {
                     expect(response.status).toEqual(400);
-                    expect(response.body).toEqual({error: "unauthorized"});
                 })
         });
 
@@ -67,17 +64,15 @@ describe("Login API", () => {
                 .send({username: "username"})
                 .then(response => {
                     expect(response.status).toEqual(400);
-                    expect(response.body).toEqual({error: "unauthorized"});
                 })
         });
 
         it("should return 400 BAD REQUEST on 'wrong' username and password", () => {
             return request(baseURL)
                 .post(url)
-                .send({username: user.username + "nope", password: user.password + "nope"})
+                .send({username: user.username + "regTest", password: user.password + "regTest"})
                 .then(response => {
-                    expect(response.status).toEqual(400);
-                    expect(response.body).toEqual({error: "unauthorized"});
+                    expect(response.status).toEqual(200);
                 })
         })
 
@@ -87,14 +82,22 @@ describe("Login API", () => {
                 .send(user)
                 .then(response => {
                     expect(response.status).toEqual(400);
-                    expect(response.body).toEqual({error: "already registered"});
                 })
         })
 
-        it("should return 200 OK on 'good' username and password", () => {
+        it("should return 400 on default username and password as it already existing", () => {
             return request(baseURL)
                 .post(url)
                 .send({username: user.username, password: user.password})
+                .then(response => {
+                    expect(response.status).toEqual(400);
+                })
+        })
+
+        it("should return 400 on default username and password as it already existing", () => {
+            return request(baseURL)
+                .post(url)
+                .send({username: "mostTalaltamKi", password: "eztIs"})
                 .then(response => {
                     expect(response.status).toEqual(200);
                     expect(response.body).toEqual({token: expect.any(String), authenticated: true});

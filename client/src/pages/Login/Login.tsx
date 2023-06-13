@@ -60,7 +60,7 @@ function Login() {
         } else if (us.length > 20) {
             setValidations({
                 ...validations,
-                username: {error: false, message: 'Username must be less than 20 characters long'}
+                username: {error: true, message: 'Username must be less than 20 characters long'}
             });
         } else if (us !== 'bumblebee') {
             setValidations({
@@ -89,7 +89,7 @@ function Login() {
         } else if (pw.length > 200) {
             setValidations({
                 ...validations,
-                password: {error: false, message: 'Password must be less than 200 characters long'}
+                password: {error: true, message: 'Password must be less than 200 characters long'}
             });
         } else if (pw !== 'honey') {
             setValidations({

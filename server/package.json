@@ -5,7 +5,7 @@
   "main": "server.ts",
   "type": "commonjs",
   "scripts": {
-    "start": "nodemon --watch server.ts",
+    "start": "npm run db:fresh && nodemon --watch server.ts",
     "test": "jest --coverage",
     "db:fresh": "npm run db:clear && npm run db:migrate && npm run db:seed",
     "db:clear": "npx rimraf database/database.sqlite",
