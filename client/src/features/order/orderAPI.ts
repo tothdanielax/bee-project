@@ -1,10 +1,14 @@
 import {API_CONFIG, ORDER_ENDPOINT} from "@context/api.ts";
 import axios from "axios";
-import {Order} from "@features/order/orderSlice.ts";
+import {Order, OrderElement} from "@features/order/orderSlice.ts";
 
 type OrderResponse = { error: string } | { status: "order successful" }
 
-const postOrder = async (order: Order): Promise<OrderResponse> => {
+type OrderPost = {
+    elements: OrderElement[]
+}
+
+const postOrder = async (order: OrderPost): Promise<OrderResponse> => {
     const response = await axios.post(ORDER_ENDPOINT, order, API_CONFIG);
     return response.data;
 };

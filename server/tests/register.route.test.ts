@@ -4,6 +4,7 @@ const url = "/api/register";
 
 let conf = require("../config.json");
 const user = conf.defaultUser;
+const {faker} = require("@faker-js/faker");
 
 describe("Register API", () => {
 
@@ -67,15 +68,6 @@ describe("Register API", () => {
                 })
         });
 
-        it("should return 400 BAD REQUEST on 'wrong' username and password", () => {
-            return request(baseURL)
-                .post(url)
-                .send({username: user.username + "regTest", password: user.password + "regTest"})
-                .then(response => {
-                    expect(response.status).toEqual(200);
-                })
-        })
-
         it("should return 400 BAD REQUEST on already registered user", () => {
             return request(baseURL)
                 .post(url)
@@ -97,7 +89,7 @@ describe("Register API", () => {
         it("should return 400 on default username and password as it already existing", () => {
             return request(baseURL)
                 .post(url)
-                .send({username: "mostTalaltamKi", password: "eztIs"})
+                .send({username: faker.internet.userName(), password: faker.internet.password()})
                 .then(response => {
                     expect(response.status).toEqual(200);
                     expect(response.body).toEqual({token: expect.any(String), authenticated: true});

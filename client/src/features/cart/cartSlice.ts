@@ -21,7 +21,7 @@ export const cartSlice = createSlice({
                         if (item.honey === action.payload.honey) {
                             return {
                                 ...item,
-                                quantity: item.quantity + action.payload.quantity
+                                quantity: item.quantity as number + action.payload.quantity as number
                             }
                         }
                         return item;

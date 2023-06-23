@@ -37,7 +37,9 @@ module.exports = {
 
             for (const order of orders) {
                 // honey plural is honey
-                await order.setHoney(faker.helpers.arrayElements(honeys, faker.number.int({min: 1, max: 5})));
+                const honey = faker.helpers.arrayElements(honeys, faker.number.int({min: 1, max: 5}));
+                await honey.forEach(async (h) => await h.update({remaining: h.remaining - faker.number.int({min: 0, max: 10})}));
+                await order.setHoney(honey);
             }
 
         } catch (error) {

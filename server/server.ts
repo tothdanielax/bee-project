@@ -93,15 +93,18 @@ app.post('/api/order', expressjwt({
     algorithms: ["HS256"]
 }), async function (req: OrderRequest, res: any) {
 
-    const elements = req.body.elements;
+    const elements: {honey: string, quantity: number}[] = req.body.elements;
     if (!elements || !Array.isArray(elements) || elements.length < 1) return res.status(400).send({error: "no orders"} as ErrorResponse);
 
     for (const element of elements) {
-        const {honey: key, quantity: value} = element;
+        const {honey: key, quantity: value}: {honey: string, quantity: number} = element;
+        console.log(key, value, typeof (value as unknown as number))
 
         if (!key?.trim()) return res.status(400).send({error: "honey name cannot be empty/missing"} as ErrorResponse);
         if (typeof key !== 'string') return res.status(400).send({error: `"${key}" is not a string`} as ErrorResponse);
-        if (!_.isInteger(value)) return res.status(400).send({error: `"${key}" item's quantity is not an integer`} as ErrorResponse);
+        if (!Number.isInteger(Number(value))) {
+            return res.status(400).send({error: `"${key}" item's quantity is not an integer`} as ErrorResponse);
+        }
         if (value < 1) return res.status(400).send({error: `"${key}" item's quantity is less than 1`} as ErrorResponse);
         if (value > 100) return res.status(400).send({error: `"${key}" item's quantity is more than 100, please contact us for bulk orders`} as ErrorResponse);
 
@@ -109,7 +112,6 @@ app.post('/api/order', expressjwt({
 
         if(!honey) return res.status(400).send({error: `"${key}" item is not available`} as ErrorResponse);
         if (honey.remaining < value) return res.status(400).send({error: `"${key}" item's quantity is more than the available quantity`} as ErrorResponse);
-
         honey.update({remaining: honey.remaining - value});
     }
 
@@ -117,11 +119,8 @@ app.post('/api/order', expressjwt({
     console.log(elements);
 
     const order = await Order.create({UserId: req.auth.id});
-    for (const element of elements) {
-        const {honey: key} = element;
-        const honey = await Honey.findOne({where: {type: key}});
-        order.setHoney(honey.id)
-    }
+    const honeyList = await Honey.findAll({where: {type: {[Op.in]: elements.map(e => e.honey)}}});
+    order.setHoney(honeyList);
 
     return res.status(200).send({status: "order successful"});
 });
